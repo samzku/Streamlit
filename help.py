@@ -68,13 +68,15 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
+"""
+#MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+"""
 # Hide Streamlit default menu and header
 hide_streamlit_style = """
     <style>
-    #MainMenu {visibility: hidden;}
-    header {visibility: hidden;}
-    footer {visibility: hidden;}
+    
  
     /* Header bar */
     .custom-header {
