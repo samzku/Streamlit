@@ -283,33 +283,34 @@ with st.container():
             sl_col1, sl_col2= st.columns([1,1]) 
             with sl_col1:
                 st.markdown('<div><h3>Inpatient Capacity</h23</div>', unsafe_allow_html=True)
-                st.markdown("""
+                st.markdown(f"""
                     <div style="
                         display: grid;
-                        grid-template-columns: repeat(2, 90px);  /* 2 columns of 90px */
-                        grid-template-rows: repeat(2, 90px);     /* 2 rows of 90px */
-                        gap: 10px;                               /* space between tiles */
+                        grid-template-columns: repeat(3, 70px);  /* 2 columns of 70px */
+                        grid-template-rows: repeat(2, 70px);     /* 2 rows of 70px */
+                        gap: 5px;                               /* space between tiles */
                     ">
-                        <div class="tile" style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 1</div>
-                        <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 2</div>
-                        <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 3</div>
-                        <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 4</div>
-                    </div>
+            {tile_content("ICU Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="11px")}
+            {tile_content("EECU Capacity","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
+            {tile_content("ED Accessible Bed","0", bg="#D9534F", value_color="#FFFAFA", value_size="24px",title_size="10px")}
+            {tile_content("Side Rooms","0", bg="#D9534F", value_color="#FFFAFA", value_size="24px",title_size="11px")}
+            {tile_content("Flex Beds","0", bg="#D9534F", value_color="#FFFAFA", value_size="24px",title_size="11px")}
+            </div>
                     """, unsafe_allow_html=True)
             with sl_col2:  
                 st.markdown('<div><h3>Inpatient Flow</h23</div>', unsafe_allow_html=True)
-                st.markdown("""
+                st.markdown(f"""
                 <div style="
                     display: grid;
-                    grid-template-columns: repeat(2, 90px);  /* 2 columns of 90px */
-                    grid-template-rows: repeat(2, 90px);     /* 2 rows of 90px */
-                    gap: 10px;                               /* space between tiles */
+                    grid-template-columns: repeat(3, 70px);  /* 2 columns of 70px */
+                    grid-template-rows: repeat(2, 70px);     /* 2 rows of 70px */
+                    gap: 5px;                               /* space between tiles */
                 ">
-                    <div class="tile" style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 1</div>
-                    <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 2</div>
-                    <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 3</div>
-                    <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 4</div>
-                </div>
+            {tile_content("ICU Pts ready for DC","3", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="10px")}
+            {tile_content("Side rooms Pt ready DC","0", bg="#D9534F", value_color="#FFFAFA", value_size="18px",title_size="11px")}
+            {tile_content("RACF Pts","10", bg="#D9534F", value_color="#FFFAFA", value_size="18px",title_size="10px")}
+            {tile_content("Transfer out Ready","39", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
+            {tile_content("SIFT","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}                </div>
                 """, unsafe_allow_html=True)
     with chart_col2:
         fig = go.Figure()
