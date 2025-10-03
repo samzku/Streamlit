@@ -237,8 +237,14 @@ ed_data = {
     'Presentations': [5,8,7,7,6,9,5,7,21,23,15,26,20,18,22,20,16,23,13,19,19,16,12,12],
     'Departures':[11,9,13,5,11,5,4,2,5,12,14,13,19,10,20,22,20,16,24,13,9,10,26,12]
 }
+sas_data = {
+    'Time': ["00:00:00","00:15:00","00:30:00","01:15:00","01:45:00","02:00:00","02:15:00","02:30:00","02:45:00","03:00:00","03:15:00","03:30:00","04:00:00","04:15:00","04:30:00","04:45:00","05:00:00","05:15:00","05:30:00","05:45:00","06:00:00","06:15:00","06:30:00","07:00:00","07:30:00","07:45:00","08:00:00","08:15:00","08:30:00","08:45:00","09:00:00","09:15:00","09:45:00","10:00:00","10:15:00","10:30:00","10:45:00","11:00:00","11:15:00","11:30:00","12:00:00","12:15:00","12:30:00","13:00:00","13:15:00","13:30:00","13:45:00","14:00:00","14:15:00","14:30:00","14:45:00","15:00:00","15:30:00","15:45:00","16:00:00","16:15:00","16:30:00","16:45:00","17:00:00","17:15:00","17:30:00","17:45:00","18:00:00","18:30:00","18:45:00","19:00:00","19:15:00","19:30:00","19:45:00","20:00:00","20:15:00","20:30:00","21:00:00","21:15:00","21:30:00","21:45:00","22:00:00","22:15:00","22:30:00","22:45:00","23:00:00","23:15:00","23:30:00","23:45:00"],
+    'Arrivals':     [1,0,1,1,0,0,1,1,1,0,1,1,1,0,1,1,3,0,1,1,0,0,1,1,1,0,1,2,4,0,1,2,4,1,0,0,1,0,3,1,2,1,3,1,2,1,0,0,1,0,1,2,0,1,3,0,0,1,1,1,4,0,0,2,1,1,0,1,1,3,1,0,2,1,2,2,1,1,3,0,0,1,1,2],
+    'Departures':   [0,1,0,2,1,2,0,0,0,3,0,1,2,1,0,0,1,1,0,1,2,2,0,1,0,2,0,1,0,2,0,2,2,2,1,2,0,2,2,2,2,1,1,3,1,2,1,1,0,1,0,1,1,0,1,1,2,1,1,0,0,1,5,0,0,2,2,0,0,1,1,2,1,1,1,0,0,2,1,4,1,1,1,1,]
+}
 
-df = pd.DataFrame(ed_data)
+ed_df = pd.DataFrame(ed_data)
+sas_df = pd.DataFrame(sas_data)
 
 with st.container():
     chart_col1, chart_col2 =  st.columns([1,1.5],gap="small") 
@@ -272,23 +278,55 @@ with st.container():
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
         </div>
         """, unsafe_allow_html=True)
-        
+        with st.container():
+            st.markdown(f"<br/>", unsafe_allow_html=True)
+            sl_col1, sl_col2= st.columns([1,1]) 
+            with sl_col1:
+                st.markdown('<div><h3>Inpatient Capacity</h23</div>', unsafe_allow_html=True)
+                st.markdown("""
+                    <div style="
+                        display: grid;
+                        grid-template-columns: repeat(2, 90px);  /* 2 columns of 90px */
+                        grid-template-rows: repeat(2, 90px);     /* 2 rows of 90px */
+                        gap: 10px;                               /* space between tiles */
+                    ">
+                        <div class="tile" style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 1</div>
+                        <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 2</div>
+                        <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 3</div>
+                        <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 4</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+            with sl_col2:  
+                st.markdown('<div><h3>Inpatient Flow</h23</div>', unsafe_allow_html=True)
+                st.markdown("""
+                <div style="
+                    display: grid;
+                    grid-template-columns: repeat(2, 90px);  /* 2 columns of 90px */
+                    grid-template-rows: repeat(2, 90px);     /* 2 rows of 90px */
+                    gap: 10px;                               /* space between tiles */
+                ">
+                    <div class="tile" style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 1</div>
+                    <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 2</div>
+                    <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 3</div>
+                    <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 4</div>
+                </div>
+                """, unsafe_allow_html=True)
     with chart_col2:
         fig = go.Figure()
 
         # Area chart - occupancy
         fig.add_trace(go.Scatter(
-            x=df['Hour'], 
-            y=df['Occupancy'], 
+            x=ed_df['Hour'], 
+            y=ed_df['Occupancy'], 
             fill='tozeroy',
             mode='none',
             name='Occupancy',
-            fillcolor='rgba(127,0,255, 0.3)'
+            fillcolor='rgba(123, 86, 219, 0.6)'
         ))
         # Line 1 - present
         fig.add_trace(go.Scatter(
-            x=df['Hour'], 
-            y=df['Presentations'], 
+            x=ed_df['Hour'], 
+            y=ed_df['Presentations'], 
             mode='lines',
             name='Presentations',
             line=dict(color='#50C89F', width=3)
@@ -296,8 +334,8 @@ with st.container():
 
         # Line 2 - depart
         fig.add_trace(go.Scatter(
-            x=df['Hour'], 
-            y=df['Departures'], 
+            x=ed_df['Hour'], 
+            y=ed_df['Departures'], 
             mode='lines',
             name='Departures',
             line=dict(color='#F0AD4E', width=3)
@@ -328,66 +366,48 @@ with st.container():
         )
         st.plotly_chart(fig, use_container_width=False)
 
+        fig = go.Figure()
 
-# Sample data
-data = {
-    'Month': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    'Sales': [100, 150, 200, 180, 220, 250],
-    'Profit': [40, 60, 80, 70, 100, 120],
-    'Forecast': [90, 140, 190, 170, 210, 240]  # This will be the area chart
-}
+        # Line 1 - Arrival
+        fig.add_trace(go.Scatter(
+            x=sas_df['Time'], 
+            y=sas_df['Arrivals'], 
+            mode='lines',
+            name='Arrivals',
+            line=dict(color='#009CEC', width=2)
+        ))
 
-with st.container():
-    chart_col1, chart_col2, chart_col3= st.columns([1,1,2]) 
+        # Line 2 - depart
+        fig.add_trace(go.Scatter(
+            x=sas_df['Time'], 
+            y=sas_df['Departures'], 
+            mode='lines',
+            name='Departures',
+            line=dict(color='#6F51C7', width=2)
+        ))
+    #B163FF
+ 
 
-    with chart_col1:
-        st.markdown('<div><h3>Inpatient Capacity</h23</div>', unsafe_allow_html=True)
-        st.markdown("""
-            <div style="
-                display: grid;
-                grid-template-columns: repeat(2, 90px);  /* 2 columns of 90px */
-                grid-template-rows: repeat(2, 90px);     /* 2 rows of 90px */
-                gap: 10px;                               /* space between tiles */
-            ">
-                <div class="tile" style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 1</div>
-                <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 2</div>
-                <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 3</div>
-                <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 4</div>
-            </div>
-            """, unsafe_allow_html=True)
-    with chart_col2:  
-        st.markdown('<div><h3>Inpatient Flow</h23</div>', unsafe_allow_html=True)
-        st.markdown("""
-        <div style="
-            display: grid;
-            grid-template-columns: repeat(2, 90px);  /* 2 columns of 90px */
-            grid-template-rows: repeat(2, 90px);     /* 2 rows of 90px */
-            gap: 10px;                               /* space between tiles */
-        ">
-            <div class="tile" style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 1</div>
-            <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 2</div>
-            <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 3</div>
-            <div style='display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;'>Tile 4</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with chart_col3:
-        df = pd.DataFrame(data)
-
-        # Convert to long format
-        df_long = df.melt('Month', var_name='Metric', value_name='Value')
-
-        # Create line and area chart separately
-        fig = px.line(df_long[df_long['Metric'].isin(['Sales', 'Profit'])],
-                    x='Month', y='Value', color='Metric', markers=True)
-
-        # Add area trace manually
-        fig.add_scatter(x=df['Month'], y=df['Forecast'], 
-                        fill='tozeroy', 
-                        mode='none', 
-                        name='Forecast', 
-                        opacity=0.2)
-
-        fig.update_layout(title="Sales vs Profit with Forecast Area", template="plotly_white" )
-        #st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(
+            title=dict(
+            text="SAS Activity<br><sub>Last 24 Hours</sub>",
+            #x=0.5  # center align
+        ),
+            legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=1.1,
+            xanchor="center",
+            x=0.5
+        ),
+            xaxis_title="Hours",
+            #yaxis_title="Values",
+            template="plotly_white",
+            plot_bgcolor="#272D3A",   # Chart background
+            paper_bgcolor="#272D3A",  # Outer background
+            font_color="white"  ,      # Text color,
+            width=800,    # pixels
+            height=300,   # pixels
+        )
+        st.plotly_chart(fig, use_container_width=False)
 
