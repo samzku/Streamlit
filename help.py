@@ -241,7 +241,7 @@ ed_data = {
 df = pd.DataFrame(ed_data)
 
 with st.container():
-    chart_col1, chart_col2 =  st.columns([1,2],gap="medium") 
+    chart_col1, chart_col2 =  st.columns([1,1.5],gap="small") 
     with chart_col1:
         chart_col1.subheader("Emergency Department")
         #st.markdown('<div><h3>Emergency Department</h23</div>', unsafe_allow_html=True)
@@ -276,6 +276,15 @@ with st.container():
     with chart_col2:
         fig = go.Figure()
 
+        # Area chart - occupancy
+        fig.add_trace(go.Scatter(
+            x=df['Hour'], 
+            y=df['Occupancy'], 
+            fill='tozeroy',
+            mode='none',
+            name='Occupancy',
+            fillcolor='rgba(127,0,255, 0.3)'
+        ))
         # Line 1 - present
         fig.add_trace(go.Scatter(
             x=df['Hour'], 
@@ -294,15 +303,7 @@ with st.container():
             line=dict(color='#F0AD4E', width=3)
         ))
     #B163FF
-        # Area chart - occupancy
-        fig.add_trace(go.Scatter(
-            x=df['Hour'], 
-            y=df['Occupancy'], 
-            fill='tozeroy',
-            mode='none',
-            name='Occupancy',
-            fillcolor='rgba(127,0,255, 0.3)'
-        ))
+ 
 
         fig.update_layout(
             title=dict(
@@ -322,10 +323,10 @@ with st.container():
             plot_bgcolor="#272D3A",   # Chart background
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
-            width=300,    # pixels
-            height=350,   # pixels
+            width=800,    # pixels
+            height=300,   # pixels
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=False)
 
 
 # Sample data
