@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from st_aggrid import AgGrid, GridOptionsBuilder
-
+import plotly.graph_objects as go
 import streamlit as st
 
 hide_streamlit_style = """
@@ -41,7 +41,10 @@ div[data-testid="stDataFrameContainer"] th {
 .block-container {
     max-width: auto;
     margin: auto;
-}         
+    <!--padding-left: 0rem;
+    padding-right: 0rem;-->
+}    
+   
 .tile {
     padding: 10px;
     border-radius: 5px;
@@ -124,7 +127,7 @@ def tile(title,
     <div style="
         background-color: {bg};
         text-align: center;
-        display: flex;
+        display: flex; border-radius:8px;
         flex-direction: column;
         justify-content: center;
         box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
@@ -146,9 +149,9 @@ st.set_page_config(layout="wide")
 # ----------------------------
 # Page header
 # ----------------------------
-st.markdown("<h3 style='text-align:center; margin-top:0;border-radius:5px;background-color:#232834; font-size: 28px;'>SALHN Patient CareFlow Board</h3>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align:center; margin-top:0;border-radius:5px;background-color:#232834; font-size: 28px;'>SALHN CareFlow Board</h3>", unsafe_allow_html=True)
 with st.container():
-    col1, col2, col3 = st.columns([0.5,2,1],gap="small", vertical_alignment="top", border=False, width="stretch") 
+    col1, col2, col3 = st.columns([0.5,2.5,1],gap="small", vertical_alignment="top", border=False, width="stretch") 
 
     # --- BIG KPI ON LEFT ---
     with col1:    
@@ -190,7 +193,7 @@ with st.container():
         #for col in df_table.columns:
         #    gb.configure_column(col, width=100)
         # Set fixed width for columns
-        #gb.configure_column("Division", width=120)        # pixels
+   
         #gb.configure_column("Physical", width=120)
         #gb.configure_column("Flex", width=120)
         #gb.configure_columns(["Division"], cellStyle={'color': 'white', 'backgroundColor': '#333'})
@@ -198,7 +201,7 @@ with st.container():
       
         gb.configure_grid_options(domLayout='normal')
         gb.configure_default_column(resizable=True, editable=False)
-
+        #gb.configure_column("Division", width=150)        # pixels
         # Style via cellClassRules (optional) or gridTheme
         grid_options = gb.build()
         AgGrid(df_table, gridOptions=grid_options,fit_columns_on_grid_load=True,height=100)
@@ -228,16 +231,17 @@ with st.container():
         """, unsafe_allow_html=True)
 # --- CHARTS BELOW ---
 
-data = {
-    'Month': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    'Sales': [100, 150, 200, 180, 220, 250],
-    'Profit': [40, 60, 80, 70, 100, 120]
+ed_data = {
+    'Hour': ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"],
+    'Occupancy': [52,78,80,73,72,68,72,75,75,85,92,85,96,95,98,100,93,86,84,73,76,80,76,57],
+    'Presentations': [5,8,7,7,6,9,5,7,21,23,15,26,20,18,22,20,16,23,13,19,19,16,12,12],
+    'Departures':[11,9,13,5,11,5,4,2,5,12,14,13,19,10,20,22,20,16,24,13,9,10,26,12]
 }
 
-df = pd.DataFrame(data)
+df = pd.DataFrame(ed_data)
 
 with st.container():
-    chart_col1, chart_col2 = st.columns([2,2]) 
+    chart_col1, chart_col2 =  st.columns([1,2],gap="medium") 
     with chart_col1:
         chart_col1.subheader("Emergency Department")
         #st.markdown('<div><h3>Emergency Department</h23</div>', unsafe_allow_html=True)
@@ -249,19 +253,19 @@ with st.container():
             gap: 5px;                               /* space between tiles */  
         ">
             {tile_content("#Amb on Ramp","14", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Hours on Ramp","14hrs", bg="#F0AD4E", value_color="#FFFAFA", value_size="20px",title_size="11px")}
-            {tile_content("Longest on Ramp","3hrs 30", bg="#F0AD4E", value_color="#FFFAFA", value_size="20px",title_size="10px")}
+            {tile_content("Hours on Ramp","14hrs", bg="#F0AD4E", value_color="#FFFAFA", value_size="18px",title_size="11px")}
+            {tile_content("Longest on Ramp","3hrs 30", bg="#F0AD4E", value_color="#FFFAFA", value_size="18px",title_size="10px")}
             {tile_content("Occupancy","98", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="11px")}
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
             {tile_content("Resus Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Average Time waiting room","1hr 27", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="10px")}
+            {tile_content("Average Time waiting room","1hr 27", bg="#5CBB5C", value_color="#FFFAFA", value_size="18px",title_size="10px")}
             {tile_content("WFB Total","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("RWT to ED Departure","4.7 hrs", bg="#E5804F", value_color="#FFFAFA", value_size="24px",title_size="10px")}
+            {tile_content("RWT to ED Departure","4.7 hrs", bg="#E5804F", value_color="#FFFAFA", value_size="18px",title_size="10px")}
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
             {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
@@ -270,16 +274,59 @@ with st.container():
         """, unsafe_allow_html=True)
         
     with chart_col2:
-        # Reshape data for Plotly Express
-        df_long = df.melt('Month', var_name='Metric', value_name='Value')
+        fig = go.Figure()
 
-        # Create chart
-        fig = px.line(df_long, x='Month', y='Value', color='Metric', markers=True, title='Sales vs Profit')
+        # Line 1 - present
+        fig.add_trace(go.Scatter(
+            x=df['Hour'], 
+            y=df['Presentations'], 
+            mode='lines',
+            name='Presentations',
+            line=dict(color='#50C89F', width=3)
+        ))
+
+        # Line 2 - depart
+        fig.add_trace(go.Scatter(
+            x=df['Hour'], 
+            y=df['Departures'], 
+            mode='lines',
+            name='Departures',
+            line=dict(color='#F0AD4E', width=3)
+        ))
+    #B163FF
+        # Area chart - occupancy
+        fig.add_trace(go.Scatter(
+            x=df['Hour'], 
+            y=df['Occupancy'], 
+            fill='tozeroy',
+            mode='none',
+            name='Occupancy',
+            fillcolor='rgba(127,0,255, 0.3)'
+        ))
+
         fig.update_layout(
-            width=300,   # Set fixed width
-            height=340   # Set fixed height
+            title=dict(
+            text="Emergency department Activity<br><sub>Last 24 Hours</sub>",
+            #x=0.5  # center align
+        ),
+            legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=1.1,
+            xanchor="center",
+            x=0.5
+        ),
+            xaxis_title="Hours",
+            #yaxis_title="Values",
+            template="plotly_white",
+            plot_bgcolor="#272D3A",   # Chart background
+            paper_bgcolor="#272D3A",  # Outer background
+            font_color="white"  ,      # Text color,
+            width=300,    # pixels
+            height=350,   # pixels
         )
         st.plotly_chart(fig, use_container_width=True)
+
 
 # Sample data
 data = {
@@ -342,3 +389,4 @@ with st.container():
 
         fig.update_layout(title="Sales vs Profit with Forecast Area", template="plotly_white" )
         #st.plotly_chart(fig, use_container_width=True)
+
