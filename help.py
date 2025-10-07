@@ -27,80 +27,22 @@ st.markdown("""
 
 [data-testid="stAppViewContainer"] {background-color: #272D3A; color: white;}
 div[data-testid="stDataFrameContainer"] table {
-    background-color: #1E1E1E !important;  /* Table background */
-    color: white;                           /* Text color */
+    background-color: #232834 !important;  /* Table background */
+    color: white;                     /* Text color */
 }
 div[data-testid="stDataFrameContainer"] th {
-    background-color: #333333 !important;  /* Header background */
+    background-color: #232834 !important;  /* Header background */
     color: white;
 }   
 .block-container {
     padding-top: 0rem;
-    padding-bottom: 0rem;margin: 0
+    padding-bottom: 0rem;
 }    
 .element-container {
-   <!-- margin: 0 !important;
+   <!-- margin: 10 !important;
     padding: 0 !important;-->
 }  
-font-family: 'Segoe UI Semibold', 'Segoe UI', sans-serif !important;
-.tile {
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    text-align: center;
-    box-shadow: 0px 0px 10px #00000050;
-    margin-bottom: 2px;
-}
-.tile h1 {margin: 0; font-size: 45px;}
-.tile h2 {margin: 0; font-size: 28px;}
-.tile.red {background-color: #D9534F;}
-.tile.orange {background-color: #E5804F;}
-.tile.green {background-color: #2ca02c;}
-.tile.gray {background-color: #3a3a3a;}
-.summary-table {
-    background-color: #1E1E1E;
-    padding: 10px;
-    border-radius: 10px;
-    color: white;
-    height: 120px;
-    overflow-y: auto;
-}
-            .table-container {
-    background-color: #333;
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
-    width: 100%;
-}
 
-.table-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.custom-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.custom-table th {
-    background-color: #555;
-    padding: 8px;
-    text-align: center;
-}
-
-.custom-table td {
-    padding: 6px;
-    text-align: center;
-    border-bottom: 1px solid #777;
-}
-
-.custom-table tr:hover {
-    background-color: #444;
-}
-            
 </style>
 """, unsafe_allow_html=True)
 
@@ -118,7 +60,7 @@ def tile(title,
     value,
     bg="#333",     
     value_color="#4CAF50",
-    value_size="28px",
+    value_size="32px",
     title_color="#FFFFFF"
 ):
     st.markdown(f"""
@@ -130,7 +72,7 @@ def tile(title,
         box-shadow: 0px 2px 5px rgba(0,0,0,0.2);padding:5px
     ">
         <div style="font-size: 14px; color: {title_color};text-align: left;margin-top:0rem">{title}</div>
-        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:135px;width:135px">{value}</div>
+        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:142px;width:142px">{value}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -139,14 +81,14 @@ def tile_content(title, value,
          bg="#222", 
          title_color="white", title_size="16px", 
          value_color="white", value_size="32px",
-         padding="5px", border_radius="10px"):
+         padding="0px", border_radius="10px", margin_bottom ="5px"):
     
-    return f'<div style="background:{bg};padding:{padding};border-radius:{border_radius};text-align:center;"> <div style="font-size:{title_size}; color:{title_color}; opacity:0.8;">{title}</div> <div style="font-size:{value_size}; color:{value_color}; font-weight:bold;">{value}</div>  </div>'
+    return f'<div style="background:{bg};border-radius:{border_radius};text-align:left;font-family:Segoe UI Semibold"> <div style="margin-left:5px;margin-bottom:{margin_bottom};font-size:{title_size}; color:{title_color}; opacity:0.8;">{title}</div> <div style="font-size:{value_size};text-align:center;padding:{padding};color:{value_color}; font-weight:bold;font-family: Segoe UI Semibold">{value}</div>  </div>'
 st.set_page_config(layout="wide")
 # ----------------------------
 # Page header
 # ----------------------------
-st.markdown("<h3 style='text-align:center; margin-top:0;border-radius:5px;background-color:#232834; font-size: 28px;'>SALHN CareFlow Board</h3>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align:center; margin-top:0;border-radius:5px;background-color:#27283A; font-size: 28px;'>SALHN CareFlow Board</h3>", unsafe_allow_html=True)
 with st.container():
     col1, col2, col3 = st.columns([1,8,1],gap="small", vertical_alignment="top", border=False, width="stretch") 
 
@@ -203,12 +145,15 @@ with st.container():
             },
             ".ag-header": {
                 "background-color": "#3E475C !important",
-                "color": "white !important"
+                "color": "white !important",
+                "font-family": "Segoe UI Semibold",
+                "font-size": "8pt"
             },
             ".ag-row": {
                 "background-color": "#3E475C !important",
                 "color": "white !important",
-                "font-family": "Segoe UI Light"
+                "font-family": "Segoe UI Light",
+                "font-size": "8pt"
             },
             ".ag-row-hover": {
                 "background-color": "#333333 !important",
@@ -238,7 +183,7 @@ with st.container():
             display: grid;
             grid-template-columns: repeat(2, 80px);  /* 2 columns of 65px */
             grid-template-rows: repeat(2, 80px);     /* 2 rows of 65px */
-            gap: 10px;                               /* space between tiles */
+            gap: 15px;                               /* space between tiles */
         ">
             {tile_content("Critical","7", bg="#3E475C", value_color="#D94446", value_size="25px",title_size="11px")}
             {tile_content("Medium","8", bg="#3E475C", value_color="#FFCE1B", value_size="25px",title_size="11px")}
@@ -249,7 +194,7 @@ with st.container():
 # --- CHARTS BELOW ---
 
 ed_data = {
-    'Hour': ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"],
+    'Hour': ["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
     'Occupancy': [52,78,80,73,72,68,72,75,75,85,92,85,96,95,98,100,93,86,84,73,76,80,76,57],
     'Presentations': [5,8,7,7,6,9,5,7,21,23,15,26,20,18,22,20,16,23,13,19,19,16,12,12],
     'Departures':[11,9,13,5,11,5,4,2,5,12,14,13,19,10,20,22,20,16,24,13,9,10,26,12]
@@ -276,47 +221,47 @@ with st.container():
         st.markdown(f"""
         <div style="
             display: grid;
-            grid-template-columns: repeat(9, 80px);  /* 9 columns of 80px */
-            grid-template-rows: repeat(2, 80px);     /* 2 rows of 80px */
-            gap: 5px;                               /* space between tiles */  
+            grid-template-columns: repeat(9, 85px);  /* 9 columns of 80px */
+            grid-template-rows: repeat(2, 85px);     /* 2 rows of 80px */
+            gap: 8px;                               /* space between tiles */  
         ">
-            {tile_content("#Amb on Ramp","14", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Hours on Ramp","14hrs", bg="#F0AD4E", value_color="#FFFAFA", value_size="18px",title_size="11px")}
-            {tile_content("Longest on Ramp","3hrs 30", bg="#F0AD4E", value_color="#FFFAFA", value_size="18px",title_size="10px")}
-            {tile_content("Occupancy","98", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Resus Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Average Time waiting room","1hr 27", bg="#5CBB5C", value_color="#FFFAFA", value_size="18px",title_size="10px")}
-            {tile_content("WFB Total","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("RWT to ED Departure","4.7 hrs", bg="#E5804F", value_color="#FFFAFA", value_size="18px",title_size="10px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
+            {tile_content("#Amb on Ramp","7", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="5px")}
+            {tile_content("Hours on Ramp","14hrs", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
+            {tile_content("Longest on Ramp","3hrs 30", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
+            {tile_content("Occupancy","98", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("Resus Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("Avg Time Waiting room","1hr 27", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
+            {tile_content("WFB Total","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("WFB Side Roo,m Demand","4", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("#Patient over 24 hours","7", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("Allocated to Bed","9", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("CARE Capacity","4", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("TIP to AAB","3.6 hrs", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
+            {tile_content("RWT to ED Departure","4.7 hrs", bg="#E5804F", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
+            {tile_content("AAB to RWT","2.4 hrs", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
+            {tile_content("Waiting for CT","5", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("Waiting for X-Ray","12", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("Waiting for US","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
         </div>
         """, unsafe_allow_html=True)
         with st.container():
-            st.markdown(f"<br/><br/>", unsafe_allow_html=True)
+            st.markdown(f"<br/><br/><br/>", unsafe_allow_html=True)
             sl_col1, sl_col2= st.columns([1,1]) 
             with sl_col1:
                 st.markdown('<div><h3>Inpatient Capacity</h23</div>', unsafe_allow_html=True)
                 st.markdown(f"""
                     <div style="
                         display: grid;
-                        grid-template-columns: repeat(3, 80px);  /* 2 columns of 70px */
-                        grid-template-rows: repeat(2, 80px);     /* 2 rows of 70px */
-                        gap: 5px;                               /* space between tiles */
+                        grid-template-columns: repeat(3, 85px);  /* 2 columns of 70px */
+                        grid-template-rows: repeat(2, 85px);     /* 2 rows of 70px */
+                        gap: 8px;                               /* space between tiles */
                     ">
-            {tile_content("ICU Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("EECU Capacity","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("ED Accessible Bed","0", bg="#D9534F", value_color="#FFFAFA", value_size="24px",title_size="10px")}
-            {tile_content("Side Rooms","0", bg="#D9534F", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("Flex Beds","0", bg="#D9534F", value_color="#FFFAFA", value_size="24px",title_size="11px")}
+            {tile_content("ICU Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px")}
+            {tile_content("EECU Capacity","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px")}
+            {tile_content("ED Accessible Bed","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="10px")}
+            {tile_content("Side Rooms","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="10px")}
+            {tile_content("Flex Beds","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="10px")}
             </div>
                     """, unsafe_allow_html=True)
             with sl_col2:  
@@ -324,15 +269,15 @@ with st.container():
                 st.markdown(f"""
                 <div style="
                     display: grid;
-                    grid-template-columns: repeat(3, 80px);  /* 2 columns of 70px */
-                    grid-template-rows: repeat(2, 80px);     /* 2 rows of 70px */
-                    gap: 5px;                               /* space between tiles */
+                    grid-template-columns: repeat(3, 85px);  /* 2 columns of 70px */
+                    grid-template-rows: repeat(2, 85px);     /* 2 rows of 70px */
+                    gap: 8px;                               /* space between tiles */
                 ">
-            {tile_content("ICU Pts ready for DC","3", bg="#F0AD4E", value_color="#FFFAFA", value_size="24px",title_size="10px")}
-            {tile_content("Side rooms Pt ready DC","0", bg="#D9534F", value_color="#FFFAFA", value_size="18px",title_size="11px")}
-            {tile_content("RACF Pts","10", bg="#D9534F", value_color="#FFFAFA", value_size="18px",title_size="10px")}
-            {tile_content("Transfer out Ready","39", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}
-            {tile_content("SIFT","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="24px",title_size="11px")}                </div>
+            {tile_content("ICU Pts ready for DC","3", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px")}
+            {tile_content("Side rooms Pt ready DC","0", bg="#D9534F", value_color="#FFFAFA", value_size="22px",title_size="10px")}
+            {tile_content("RACF Pts","10", bg="#D9534F", value_color="#FFFAFA", value_size="22px",title_size="10px")}
+            {tile_content("Transfer out Ready","39", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px")}
+            {tile_content("SIFT","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px")}                </div>
                 """, unsafe_allow_html=True)
     with chart_col2:
         fig = go.Figure()
@@ -370,7 +315,7 @@ with st.container():
             title=dict(
             text="Emergency department Activity<br><sub>Last 24 Hours</sub>",
             #x=0.5  # center align
-        ),margin=dict(b=0),
+        ),
          xaxis=dict(
         dtick=5  # show a label every 5 units
     ),
@@ -379,7 +324,7 @@ with st.container():
             yanchor="top",
             y=1.35,
             xanchor="center",
-            x=0.8
+            x=0.65
         ),
             xaxis_title="Hours",
             #yaxis_title="Values",
@@ -387,11 +332,11 @@ with st.container():
             plot_bgcolor="#272D3A",   # Chart background
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
-            width=450,    # pixels
-            height=250,   # pixels
+            width=400,    # pixels
+            height=300,   # pixels
         )
         st.plotly_chart(fig, use_container_width=False)
-
+        #st.markdown(f"<br/><br/>", unsafe_allow_html=True)
         fig = go.Figure()
 
         # Admns Area
@@ -417,9 +362,9 @@ with st.container():
 
         fig.update_layout(
             title=dict(
-            text="IP Activity<br><sub>Last 24 Hours</sub>",
+            text="Inpatient Activity<br><sub>Last 24 Hours</sub>",
             #x=0.5  # center align
-        ),margin=dict(b=0,t=0,l=0,r=0),
+        ),
          xaxis=dict(
         dtick=5  # show a label every 5 units
     ),
@@ -436,12 +381,13 @@ with st.container():
             plot_bgcolor="#272D3A",   # Chart background
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
-            width=400,    # pixels
-            height=200,   # pixels
+            width=600,    # pixels
+            height=300,   # pixels
         )
 
         st.plotly_chart(fig, use_container_width=False)
     with chart_col3:
+        #st.markdown(f"<br/>", unsafe_allow_html=True)
         fig = go.Figure()
 
         # Line 1 - Arrival
@@ -468,9 +414,12 @@ with st.container():
             title=dict(
             text="SAS Activity<br><sub>Last 24 Hours</sub>",
             #x=0.5  # center align
-        ),margin=dict(b=0,t=0),
+        ),
         xaxis=dict(
-        dtick=25  # show a label every 5 units
+        dtick=20  # show a label every 5 units
+    ),
+    yaxis=dict(
+        dtick=4  # show a label every 5 units
     ),
             legend=dict(
             orientation="h",
@@ -479,14 +428,14 @@ with st.container():
             xanchor="center",
             x=0.5
         ),
-            xaxis_title="Time",
+            #xaxis_title="Time",
             #yaxis_title="Values",
             template="plotly_white",
             plot_bgcolor="#272D3A",   # Chart background
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
-            width=450,    # pixels
-            height=150,   # pixels
+            width=400,    # pixels
+            height=300,   # pixels
         )
         st.plotly_chart(fig, use_container_width=False)
         st.markdown(f"<br/>", unsafe_allow_html=True)
