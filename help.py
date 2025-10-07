@@ -150,7 +150,7 @@ with st.container():
             ".ag-root-wrapper": {
                 "background-color": "#3E475C !important",  # dark gray background
                 "color": "white !important",               # white text
-                "border-radius": "8px",
+                
                 "border": "none !important"
             },
             ".ag-header": {
