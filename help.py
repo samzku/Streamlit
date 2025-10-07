@@ -39,8 +39,8 @@ div[data-testid="stDataFrameContainer"] th {
     padding-bottom: 0rem;
 }    
 .element-container {
-   <!-- margin: 10 !important;
-    padding: 0 !important;-->
+    margin: 10 !important;
+    padding: 0 !important;
 }  
 
 </style>
@@ -185,10 +185,10 @@ with st.container():
             grid-template-rows: repeat(2, 80px);     /* 2 rows of 65px */
             gap: 15px;                               /* space between tiles */
         ">
-            {tile_content("Critical","7", bg="#3E475C", value_color="#D94446", value_size="25px",title_size="11px")}
-            {tile_content("Medium","8", bg="#3E475C", value_color="#FFCE1B", value_size="25px",title_size="11px")}
-            {tile_content("High","1", bg="#3E475C", value_color="#FF7518", value_size="25px",title_size="11px")}
-            {tile_content("Normal","16", bg="#3E475C", value_color="#3CAE63", value_size="25px",title_size="11px")}
+            {tile_content("Critical","7", bg="#3E475C", value_color="#D94446", value_size="30px",title_size="11px")}
+            {tile_content("Medium","8", bg="#3E475C", value_color="#FFCE1B", value_size="30px",title_size="11px")}
+            {tile_content("High","1", bg="#3E475C", value_color="#FF7518", value_size="30px",title_size="11px")}
+            {tile_content("Normal","16", bg="#3E475C", value_color="#3CAE63", value_size="30px",title_size="11px")}
         </div>
         """, unsafe_allow_html=True)
 # --- CHARTS BELOW ---
@@ -216,8 +216,8 @@ ip_df = pd.DataFrame(ip_data)
 with st.container():
     chart_col1, chart_col2,chart_col3 =  st.columns([2,1,1],gap="small", border=False, width="stretch") 
     with chart_col1:
-        chart_col1.subheader("Emergency Department")
-        #st.markdown('<div><h3>Emergency Department</h23</div>', unsafe_allow_html=True)
+        #chart_col1.subheader("Emergency Department")
+        st.markdown('<div style="font-family:Segoe UI Semibold"><h3>Emergency Department</h3></div>', unsafe_allow_html=True)
         st.markdown(f"""
         <div style="
             display: grid;
@@ -225,31 +225,31 @@ with st.container():
             grid-template-rows: repeat(2, 85px);     /* 2 rows of 80px */
             gap: 8px;                               /* space between tiles */  
         ">
-            {tile_content("#Amb on Ramp","7", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="5px")}
-            {tile_content("Hours on Ramp","14hrs", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
-            {tile_content("Longest on Ramp","3hrs 30", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
-            {tile_content("Occupancy","98", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("Resus Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("Avg Time Waiting room","1hr 27", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
-            {tile_content("WFB Total","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("WFB Side Roo,m Demand","4", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("#Patient over 24 hours","7", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("Allocated to Bed","9", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("CARE Capacity","4", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("TIP to AAB","3.6 hrs", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
-            {tile_content("RWT to ED Departure","4.7 hrs", bg="#E5804F", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
-            {tile_content("AAB to RWT","2.4 hrs", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="10px",margin_bottom="10px")}
-            {tile_content("Waiting for CT","5", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("Waiting for X-Ray","12", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
-            {tile_content("Waiting for US","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px",margin_bottom="10px")}
+            {tile_content("#Amb on Ramp","7", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
+            {tile_content("Hours on Ramp","14hrs", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="10px")}
+            {tile_content("Longest on Ramp","3hrs 30", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="10px")}
+            {tile_content("Occupancy","98", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
+            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
+            {tile_content("Resus Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
+            {tile_content("Avg Time Waiting room","1hr 27", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="0px")}
+            {tile_content("WFB Total","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="7x")}
+            {tile_content("WFB Side Room Demand","4", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="0px")}
+            {tile_content("#Patient over 24 hours","7", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="0px")}
+            {tile_content("Allocated to Bed","9", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="8px")}
+            {tile_content("CARE Capacity","4", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("TIP to AAB","3.6 hrs", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="12px")}
+            {tile_content("RWT to ED Departure","4.7 hrs", bg="#E5804F", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="2px")}
+            {tile_content("AAB to RWT","2.4 hrs", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="12px")}
+            {tile_content("Waiting for CT","5", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("Waiting for X-Ray","12", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("Waiting for US","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
         </div>
         """, unsafe_allow_html=True)
         with st.container():
-            st.markdown(f"<br/><br/><br/>", unsafe_allow_html=True)
+            st.markdown(f"<br/><br/>", unsafe_allow_html=True)
             sl_col1, sl_col2= st.columns([1,1]) 
             with sl_col1:
-                st.markdown('<div><h3>Inpatient Capacity</h23</div>', unsafe_allow_html=True)
+                st.markdown('<div style="font-family:Segoe UI Semibold"><h3>Inpatient Capacity</h3></div>', unsafe_allow_html=True)
                 st.markdown(f"""
                     <div style="
                         display: grid;
@@ -257,15 +257,16 @@ with st.container():
                         grid-template-rows: repeat(2, 85px);     /* 2 rows of 70px */
                         gap: 8px;                               /* space between tiles */
                     ">
-            {tile_content("ICU Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px")}
-            {tile_content("EECU Capacity","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px")}
-            {tile_content("ED Accessible Bed","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="10px")}
-            {tile_content("Side Rooms","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="10px")}
-            {tile_content("Flex Beds","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="10px")}
+            {tile_content("ICU Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("EECU Capacity","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("ED Accessible Bed","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("Side Rooms","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("Flex Beds","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("Emergency Surgery","8", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
             </div>
                     """, unsafe_allow_html=True)
             with sl_col2:  
-                st.markdown('<div><h3>Inpatient Flow</h23</div>', unsafe_allow_html=True)
+                st.markdown('<div style="font-family:Segoe UI Semibold"><h3>Inpatient Flow</h3></div>', unsafe_allow_html=True)
                 st.markdown(f"""
                 <div style="
                     display: grid;
@@ -273,11 +274,11 @@ with st.container():
                     grid-template-rows: repeat(2, 85px);     /* 2 rows of 70px */
                     gap: 8px;                               /* space between tiles */
                 ">
-            {tile_content("ICU Pts ready for DC","3", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="10px")}
-            {tile_content("Side rooms Pt ready DC","0", bg="#D9534F", value_color="#FFFAFA", value_size="22px",title_size="10px")}
-            {tile_content("RACF Pts","10", bg="#D9534F", value_color="#FFFAFA", value_size="22px",title_size="10px")}
-            {tile_content("Transfer out Ready","39", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px")}
-            {tile_content("SIFT","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="10px")}                </div>
+            {tile_content("ICU Pts ready for DC","3", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="0px")}
+            {tile_content("Side rooms Pt ready DC","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
+            {tile_content("RACF Pts","10", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="12px")}
+            {tile_content("Transfer out Ready","39", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("SIFT","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}                </div>
                 """, unsafe_allow_html=True)
     with chart_col2:
         fig = go.Figure()
@@ -339,7 +340,18 @@ with st.container():
         #st.markdown(f"<br/><br/>", unsafe_allow_html=True)
         fig = go.Figure()
 
-        # Admns Area
+
+        # Separations Area
+        fig.add_trace(go.Scatter(
+            x=ip_df["Hour"],
+            y=ip_df["Separations"],            
+            stackgroup='one',
+            name='Separations',
+            fillcolor='rgba(123, 86, 219, 0.6)',  # <-- Different transparency
+            line=dict(color='rgba(0,0,0,0)') 
+        ))
+
+        # Admissions Area
         fig.add_trace(go.Scatter(
             x=ip_df["Hour"],
             y=ip_df["Admissions"],
@@ -350,15 +362,6 @@ with st.container():
             line=dict(color='rgba(0,0,0,0)') 
         ))
 
-        # Sepons Area
-        fig.add_trace(go.Scatter(
-            x=ip_df["Hour"],
-            y=ip_df["Separations"],            
-            stackgroup='one',
-            name='Separations',
-            fillcolor='rgba(123, 86, 219, 0.6)',  # <-- Different transparency
-            line=dict(color='rgba(0,0,0,0)') 
-        ))
 
         fig.update_layout(
             title=dict(
