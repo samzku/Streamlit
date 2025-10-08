@@ -113,18 +113,18 @@ with st.container():
         #st.markdown('<div class="summary-table"><h2>Ward Occupancy</h2></div>', unsafe_allow_html=True)
         # Example table
         df_table = pd.DataFrame({
-            "Division": ["Medicine, Cardiac and Critical Care","3GOF - Gen Med Short Stay","4A - General Medicine","4D - General Medicine", "Mental Health", "18V - Ward 18 Open Ward"],
-            "Physical": [304, 18, 26, 28,100,100],
-            "Flex": [13, 0, 2, 2,5,8],
-            "16:00": ["91%", "85%", "101%", "99%", "82%", "89%"],
-            "15:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
-            "14:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
-            "13:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
-            "12:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
-            "11:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
-            "10:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
-            "09:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
-            "08:00": ["91%", "101%", "82%", "89%", "82%", "89%"]
+            "Division": ["Medicine, Cardiac and Critical Care","3GOF - Gen Med Short Stay","4A - General Medicine","4D - General Medicine"],
+            "Physical": [304, 18, 26, 28],
+            "Flex": [13, 0, 2, 2],
+            "16:00": ["91%", "85%", "101%", "99%"],
+            "15:00": ["91%", "101%", "82%", "89%"],
+            "14:00": ["91%", "101%", "82%", "89%"],
+            "13:00": ["91%", "101%", "82%", "89%"],
+            "12:00": ["91%", "101%", "82%", "89%"],
+            "11:00": ["91%", "101%", "82%", "89%"],
+            "10:00": ["91%", "101%", "82%", "89%"],
+            "09:00": ["91%", "101%", "82%", "89%"],
+            "08:00": ["91%", "101%", "82%", "89%"]
             
         })
         # Conditional indentation if value contains '-'
@@ -134,8 +134,7 @@ function(params) {
         return {'padding-left': '20px'}; 
     }else {
         return {'font-weight': 'bold',
-            'font-family': 'Segoe UI Semibold',
-            'font-size': '10px'};   // bold
+            'font-family': 'Segoe UI Semibold'};   // bold
     }
     return {};
 }
@@ -152,7 +151,9 @@ function(params) {
         
         
         #gb.configure_column("Division", rowGroup=True, hide=True)
-        #gb.configure_default_column(resizable=True, sortable=True, filter=True)
+        gb.configure_default_column(resizable=True, sortable=False, filter=False,  width=100)
+        gb.configure_column("Physical", filter=False)
+        gb.configure_column("Flex", filter=False)
         #for col in df_table.columns:
         #    gb.configure_column(col, width=150)
         # Set fixed width for columns
@@ -165,7 +166,7 @@ function(params) {
             ".ag-root-wrapper": {
                 "background-color": "#3E475C !important",  # dark gray background
                 "color": "white !important",               # white text
-                
+                "padding-right" : "20px","padding-left" : "20px",
                 "border": "none !important"
             },
             ".ag-header": {
@@ -179,9 +180,6 @@ function(params) {
                 "color": "white !important",
                 "font-family": "Segoe UI Light",
                 "font-size": "8pt"
-            },
-            ".ag-row-hover": {
-                "background-color": "#333333 !important",
             }
         }
  #       gb.configure_grid_options(
@@ -190,7 +188,7 @@ function(params) {
  #       animateRows=True,
  #       domLayout="autoHeight",
  #   )
-        #gb.configure_grid_options(domLayout='normal')
+        #gb.configure_grid_options(domLayout='autoHeight')  #for auto-table height
         #gb.configure_default_column(resizable=True, editable=False)
         
         # Style via cellClassRules (optional) or gridTheme
@@ -200,7 +198,7 @@ function(params) {
         #height=400,
         #theme="streamlit",  # or "balham", "material", "alpine"
     #)
-        AgGrid(df_table, gridOptions=grid_options,fit_columns_on_grid_load=True,custom_css=custom_css, theme="streamlit",height=155, enable_enterprise_modules=True,allow_unsafe_jscode=True) ## can also use "balham", "material", "alpine"
+        AgGrid(df_table, gridOptions=grid_options,fit_columns_on_grid_load=True,custom_css=custom_css, theme="streamlit",height=155,allow_unsafe_jscode=True) ## can also use "balham", "material", "alpine"
         #st.dataframe(df_table, use_container_width=True)
 
 
