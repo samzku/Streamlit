@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from st_aggrid import AgGrid, GridOptionsBuilder
+from st_aggrid import AgGrid, GridOptionsBuilder,JsCode
 import plotly.graph_objects as go
 import streamlit as st
 
@@ -72,7 +72,7 @@ def tile(title,
         box-shadow: 0px 2px 5px rgba(0,0,0,0.2);padding:5px
     ">
         <div style="font-size: 14px; color: {title_color};text-align: left;margin-top:0rem">{title}</div>
-        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:142px;width:142px">{value}</div>
+        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:147px;width:147px">{value}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -113,21 +113,36 @@ with st.container():
         #st.markdown('<div class="summary-table"><h2>Ward Occupancy</h2></div>', unsafe_allow_html=True)
         # Example table
         df_table = pd.DataFrame({
-            "Division": ["Medicine, Cardiac and Critical Care","Medicine, Cardiac and Critical Care","Medicine, Cardiac and Critical Care","Medicine, Cardiac and Critical Care", "Mental Health", "Mental Health", "Rehab", "Div 4","Div 5"],
-            "Ward": ["3GOF", "4A", "4D", "4GNS","18V","18VH","2S","3G","K2"],
-            "Physical": [304, 18, 26, 28,30,12,45, 18, 26],
-            "Flex": [13, 0, 2, 2,5,8,7, 0, 2],
-            "16:00": ["91%", "101%", "82%", "89%", "82%", "89%", "89%", "101%", "82%"],
-            "15:00": ["91%", "101%", "82%", "89%", "82%", "89%", "89%", "101%", "82%"],
-            "14:00": ["91%", "101%", "82%", "89%", "82%", "89%", "89%", "101%", "82%"],
-            "13:00": ["91%", "101%", "82%", "89%", "82%", "89%", "89%", "101%", "82%"],
-            "12:00": ["91%", "101%", "82%", "89%", "82%", "89%", "89%", "101%", "82%"],
-            "11:00": ["91%", "101%", "82%", "89%", "82%", "89%", "89%", "101%", "82%"],
-            "10:00": ["91%", "101%", "82%", "89%", "82%", "89%", "89%", "101%", "82%"],
-            "09:00": ["91%", "101%", "82%", "89%", "82%", "89%", "89%", "101%", "82%"],
-            "08:00": ["91%", "101%", "82%", "89%", "82%", "89%", "89%", "101%", "82%"]
+            "Division": ["Medicine, Cardiac and Critical Care","3GOF - Gen Med Short Stay","4A - General Medicine","4D - General Medicine", "Mental Health", "18V - Ward 18 Open Ward"],
+            "Physical": [304, 18, 26, 28,100,100],
+            "Flex": [13, 0, 2, 2,5,8],
+            "16:00": ["91%", "85%", "101%", "99%", "82%", "89%"],
+            "15:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
+            "14:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
+            "13:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
+            "12:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
+            "11:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
+            "10:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
+            "09:00": ["91%", "101%", "82%", "89%", "82%", "89%"],
+            "08:00": ["91%", "101%", "82%", "89%", "82%", "89%"]
             
         })
+        # Conditional indentation if value contains '-'
+        indent_style = JsCode("""
+function(params) {
+    if(params.value && params.value.includes('-')) {
+        return {'padding-left': '20px'}; 
+    }else {
+        return {'font-weight': 'bold',
+            'font-family': 'Segoe UI Semibold',
+            'font-size': '10px'};   // bold
+    }
+    return {};
+}
+""")
+        gb = GridOptionsBuilder.from_dataframe(df_table)
+        # Apply to Division column
+        gb.configure_column("Division", cellStyle=indent_style)
 
         # Estimate height (approx 28px per row + header)
         row_height = 28
@@ -135,13 +150,13 @@ with st.container():
         padding = 20
         calculated_height = len(df_table) * row_height + header_height + padding
         
-        gb = GridOptionsBuilder.from_dataframe(df_table)
+        
         #gb.configure_column("Division", rowGroup=True, hide=True)
         #gb.configure_default_column(resizable=True, sortable=True, filter=True)
         #for col in df_table.columns:
         #    gb.configure_column(col, width=150)
         # Set fixed width for columns
-        gb.configure_column("Division", width=300)        # pixels
+        gb.configure_column("Division", width=350)        # pixels
         #gb.configure_column("Physical", width=120)
         #gb.configure_column("Flex", width=120)
         #gb.configure_columns(["Division"], cellStyle={'color': 'white', 'backgroundColor': '#333'})
@@ -185,7 +200,7 @@ with st.container():
         #height=400,
         #theme="streamlit",  # or "balham", "material", "alpine"
     #)
-        AgGrid(df_table, gridOptions=grid_options,fit_columns_on_grid_load=True,custom_css=custom_css, theme="streamlit",height=150) ## can also use "balham", "material", "alpine"
+        AgGrid(df_table, gridOptions=grid_options,fit_columns_on_grid_load=True,custom_css=custom_css, theme="streamlit",height=155, enable_enterprise_modules=True,allow_unsafe_jscode=True) ## can also use "balham", "material", "alpine"
         #st.dataframe(df_table, use_container_width=True)
 
 
@@ -197,10 +212,10 @@ with st.container():
             grid-template-rows: repeat(2, 90px);     /* 2 rows of 65px */
             gap: 5px;                               /* space between tiles */
         ">
-            {tile_content("Critical","5", bg="#3E475C", value_color="#D94446", value_size="45px",title_size="10px",margin_bottom="2px")}
-            {tile_content("Medium","7", bg="#3E475C", value_color="#FFCE1B", value_size="45px",title_size="10px",margin_bottom="2px")}
-            {tile_content("High","1", bg="#3E475C", value_color="#FF7518", value_size="45px",title_size="10px",margin_bottom="2px")}
-            {tile_content("Normal","16", bg="#3E475C", value_color="#3CAE63", value_size="45px",title_size="10px",margin_bottom="2px")}
+            {tile_content("Critical","5", bg="#3E475C", value_color="#D9534F", value_size="50px",title_size="10px",margin_bottom="0px")}
+            {tile_content("Medium","7", bg="#3E475C", value_color="#F0AD4E", value_size="50px",title_size="10px",margin_bottom="0px")}
+            {tile_content("High","1", bg="#3E475C", value_color="#E5804F", value_size="50px",title_size="10px",margin_bottom="0px")}
+            {tile_content("Normal","16", bg="#3E475C", value_color="#5CBB5C", value_size="50px",title_size="10px",margin_bottom="0px")}
         </div>
         """, unsafe_allow_html=True)
 # --- CHARTS BELOW ---
@@ -287,7 +302,7 @@ with st.container():
                     gap: 8px;                               /* space between tiles */
                 ">
             {tile_content("ICU Pts ready for DC","3", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="0px")}
-            {tile_content("Side rooms Pt ready DC","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
+            {tile_content("Side rooms Pt ready DC","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="0px")}
             {tile_content("RACF Pts","10", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="12px")}
             {tile_content("Transfer out Ready","39", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
             {tile_content("SIFT","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}                </div>
