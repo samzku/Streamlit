@@ -225,52 +225,68 @@ function(params) {
         #st.dataframe(df_table, use_container_width=True)
         fig = go.Figure()
 
-        # Bar 1: Arrivals
+        # Bar 1: Presentations
         fig.add_trace(go.Bar(
-            x=sas_df["Time"],
-            y=sas_df["Arrivals"],
-            name="Arrivals",
+            x=ed_df["Hour"],
+            y=ed_df["Presentations"],
+            name="Presentations",
             marker_color="#6495DF"
         ))
 
         # Bar 2: Departures
         fig.add_trace(go.Bar(
-            x=sas_df["Time"],
-            y=sas_df["Departures"],
+            x=ed_df["Hour"],
+            y=ed_df["Departures"],
             name="Departures",
             marker_color="#9D81F0"
+        ))
+
+        # Line: Occupancy
+        fig.add_trace(go.Scatter(
+            x=ed_df["Hour"],
+            y=ed_df["Occupancy"],
+            name="Occupancy (%)",
+            mode="lines+markers",
+            line=dict(color="rgba(255, 193, 7, 1)", width=2),
+            marker=dict(size=5),
+            yaxis="y2"
         ))
 
 
         fig.update_layout(
             title=dict(
-                text="SAS Activity<br><sub>Last 24 Hours</sub>",
+                text="Emergency department Activity<br><sub>Last 24 Hours</sub>",
                 font=dict(size=18)
             ),
             xaxis=dict(
                 title="Hour",
                 tickmode='linear',
-                dtick=20,
+                dtick=2,
                 showgrid=False
             ),
             yaxis=dict(
-                
-#                title="Admissions / Separations",
+ #               title="Admissions / Separations",
                 showgrid=False
-            ),           
+            ),
+            yaxis2=dict(
+                title="Occupancy (%)",
+                overlaying="y",
+                side="right",
+                showgrid=False
+            ),
             barmode="group",  # group bars side by side
             legend=dict(
                 orientation="h",
                 yanchor="bottom",
-                y=1.2,
+                y=1.1,
                 xanchor="center",
-                x=0.9
-            ),margin=dict(l=0, r=0, t=0, b=0),
+                x=0.5
+            ),
             plot_bgcolor="#272D3A",   # Chart background
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
-            width=400,    # pixels
-            height=310,   # pixels
+            width=900,    # pixels
+            height=250,   # pixels
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -349,8 +365,7 @@ with st.container():
                 st.markdown(f"""
                     <div style="
                         display: grid;
-                        grid-template-columns: repeat(3, 85px);  /* 2 columns of 70px */
-                        grid-template-rows: repeat(3, 85px);     /* 2 rows of 70px */
+                        grid-template-columns: repeat(6, 85px);  /* 2 columns of 70px */
                         gap: 8px;                               /* space between tiles */
                     ">
             {tile_content("ED Nursing","0", bg="#3E475C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
@@ -382,71 +397,57 @@ with st.container():
     with chart_col2:
         fig = go.Figure()
 
-        # Bar 1: Presentations
+        # Bar 1: Arrivals
         fig.add_trace(go.Bar(
-            x=ed_df["Hour"],
-            y=ed_df["Presentations"],
-            name="Presentations",
+            x=sas_df["Time"],
+            y=sas_df["Arrivals"],
+            name="Arrivals",
             marker_color="#6495DF"
         ))
 
         # Bar 2: Departures
         fig.add_trace(go.Bar(
-            x=ed_df["Hour"],
-            y=ed_df["Departures"],
+            x=sas_df["Time"],
+            y=sas_df["Departures"],
             name="Departures",
             marker_color="#9D81F0"
-        ))
-
-        # Line: Occupancy
-        fig.add_trace(go.Scatter(
-            x=ed_df["Hour"],
-            y=ed_df["Occupancy"],
-            name="Occupancy (%)",
-            mode="lines+markers",
-            line=dict(color="rgba(255, 193, 7, 1)", width=2),
-            marker=dict(size=5),
-            yaxis="y2"
         ))
 
 
         fig.update_layout(
             title=dict(
-                text="Emergency department Activity<br><sub>Last 24 Hours</sub>",
+                text="SAS Activity<br><sub>Last 24 Hours</sub>",
                 font=dict(size=18)
             ),
             xaxis=dict(
                 title="Hour",
                 tickmode='linear',
-                dtick=2,
+                dtick=20,
                 showgrid=False
             ),
             yaxis=dict(
- #               title="Admissions / Separations",
+                
+#                title="Admissions / Separations",
                 showgrid=False
-            ),
-            yaxis2=dict(
-                title="Occupancy (%)",
-                overlaying="y",
-                side="right",
-                showgrid=False
-            ),
+            ),           
             barmode="group",  # group bars side by side
             legend=dict(
                 orientation="h",
                 yanchor="bottom",
-                y=1.05,
+                y=1.2,
                 xanchor="center",
-                x=0.5
-            ),
+                x=0.9
+            ),margin=dict(l=0, r=0, t=0, b=0),
             plot_bgcolor="#272D3A",   # Chart background
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
             width=400,    # pixels
-            height=350,   # pixels
+            height=310,   # pixels
         )
 
         st.plotly_chart(fig, use_container_width=True)
+        
+        
     
 
         fig = go.Figure()
