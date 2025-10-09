@@ -123,7 +123,7 @@ with st.container():
             st.markdown(f"""
         <div style="
             display: grid;
-            grid-template-columns: repeat(4, 150px);  /* 2 columns of 65px */
+            grid-template-columns: repeat(4, 100px);  /* 2 columns of 65px */
             gap: 5px;     margin-top: 80px;                          
         ">
             {tile_content("Critical","5", bg="#3E475C", value_color="#D9534F", value_size="50px",title_size="10px",margin_bottom="0px")}
