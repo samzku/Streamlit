@@ -41,6 +41,7 @@ div[data-testid="stDataFrameContainer"] th {
 .element-container {
     margin: 0 !important;
     padding: 0 !important;
+    padding-top: 0rem;
 }  
 
 </style>
@@ -89,6 +90,28 @@ st.set_page_config(layout="wide")
 # Page header
 # ----------------------------
 st.markdown("<h3 style='text-align:center; margin-top:0;border-radius:5px;background-color:#27283A; font-size: 28px;'>SALHN CareFlow Board</h3>", unsafe_allow_html=True)
+
+ed_data = {
+    'Hour': ["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
+    'Occupancy': [52,78,80,73,72,68,72,75,75,85,92,85,96,95,98,100,93,86,84,73,76,80,76,57],
+    'Presentations': [5,8,7,7,6,9,5,7,21,23,15,26,20,18,22,20,16,23,13,19,19,16,12,12],
+    'Departures':[11,9,13,5,11,5,4,2,5,12,14,13,19,10,20,22,20,16,24,13,9,10,26,12]
+}
+sas_data = {
+    'Time': ["00:00","00:15","00:30","01:15","01:45","02:00","02:15","02:30","02:45","03:00","03:15","03:30","04:00","04:15","04:30","04:45","05:00","05:15","05:30","05:45","06:00","06:15","06:30","07:00","07:30","07:45","08:00","08:15","08:30","08:45","09:00","09:15","09:45","10:00","10:15","10:30","10:45","11:00","11:15","11:30","12:00","12:15","12:30","13:00","13:15","13:30","13:45","14:00","14:15","14:30","14:45","15","15:30","15:45","16:00","16:15","16:30","16:45","17:00","17:15","17:30","17:45","18:00","18:30","18:45","19:00","19:15","19:30","19:45","20:00","20:15","20:30","21:00","21:15","21:30","21:45","22:00","22:15","22:30","22:45","23:00","23:15","23:30","23:45"],
+    'Arrivals':     [1,0,1,1,0,0,1,1,1,0,1,1,1,0,1,1,3,0,1,1,0,0,1,1,1,0,1,2,4,0,1,2,4,1,0,0,1,0,3,1,2,1,3,1,2,1,0,0,1,0,1,2,0,1,3,0,0,1,1,1,4,0,0,2,1,1,0,1,1,3,1,0,2,1,2,2,1,1,3,0,0,1,1,2],
+    'Departures':   [0,1,0,2,1,2,0,0,0,3,0,1,2,1,0,0,1,1,0,1,2,2,0,1,0,2,0,1,0,2,0,2,2,2,1,2,0,2,2,2,2,1,1,3,1,2,1,1,0,1,0,1,1,0,1,1,2,1,1,0,0,1,5,0,0,2,2,0,0,1,1,2,1,1,1,0,0,2,1,4,1,1,1,1,]
+}
+
+ip_data = {
+    'Hour': ["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
+    'Admissions': [6,7,3,6,1,5,10,23,16,8,10,7,10,13,19,18,14,10,8,10,11,6,6,8],
+    'Separations': [4,0,4,2,2,4,0,2,6,9,15,20,32,24,24,9,24,7,20,11,5,3,6,2]
+}
+ed_df = pd.DataFrame(ed_data)
+sas_df = pd.DataFrame(sas_data)
+ip_df = pd.DataFrame(ip_data)
+
 with st.container():
     col1, col2, col3 = st.columns([1,8,1],gap="small", vertical_alignment="top", border=False, width="stretch") 
 
@@ -99,17 +122,17 @@ with st.container():
 
     # --- TABLE IN THE MIDDLE ---
     with col2:
-        st.markdown("""
-    <div style="
-        background-color:#3E475C; 
-        color:white; 
-        padding:2px; 
-        text-align:left;
-        font-size:14px;"font-family": "Segoe UI Semibold"
-    ">
-        Ward Occupancy & Capacity
-    </div>
-    """, unsafe_allow_html=True)
+    #     st.markdown("""
+    # <div style="
+    #     background-color:#3E475C; 
+    #     color:white; 
+    #     padding:2px; 
+    #     text-align:left;
+    #     font-size:14px;"font-family": "Segoe UI Semibold"
+    # ">
+    #     Ward Occupancy & Capacity
+    # </div>
+    # """, unsafe_allow_html=True)
         #st.markdown('<div class="summary-table"><h2>Ward Occupancy</h2></div>', unsafe_allow_html=True)
         # Example table
         df_table = pd.DataFrame({
@@ -198,8 +221,59 @@ function(params) {
         #height=400,
         #theme="streamlit",  # or "balham", "material", "alpine"
     #)
-        AgGrid(df_table, gridOptions=grid_options,fit_columns_on_grid_load=True,custom_css=custom_css, theme="streamlit",height=155,allow_unsafe_jscode=True) ## can also use "balham", "material", "alpine"
+        #AgGrid(df_table, gridOptions=grid_options,fit_columns_on_grid_load=True,custom_css=custom_css, theme="streamlit",height=155,allow_unsafe_jscode=True) ## can also use "balham", "material", "alpine"
         #st.dataframe(df_table, use_container_width=True)
+        fig = go.Figure()
+
+        # Bar 1: Arrivals
+        fig.add_trace(go.Bar(
+            x=sas_df["Time"],
+            y=sas_df["Arrivals"],
+            name="Arrivals",
+            marker_color="#6495DF"
+        ))
+
+        # Bar 2: Departures
+        fig.add_trace(go.Bar(
+            x=sas_df["Time"],
+            y=sas_df["Departures"],
+            name="Departures",
+            marker_color="#9D81F0"
+        ))
+
+
+        fig.update_layout(
+            title=dict(
+                text="SAS Activity<br><sub>Last 24 Hours</sub>",
+                font=dict(size=18)
+            ),
+            xaxis=dict(
+                title="Hour",
+                tickmode='linear',
+                dtick=2,
+                showgrid=False
+            ),
+            yaxis=dict(
+                
+#                title="Admissions / Separations",
+                showgrid=False
+            ),           
+            barmode="group",  # group bars side by side
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.05,
+                xanchor="center",
+                x=0.5
+            ),
+            plot_bgcolor="#272D3A",   # Chart background
+            paper_bgcolor="#272D3A",  # Outer background
+            font_color="white"  ,      # Text color,
+            width=400,    # pixels
+            height=350,   # pixels
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
 
 
     with col3:
@@ -218,26 +292,7 @@ function(params) {
         """, unsafe_allow_html=True)
 # --- CHARTS BELOW ---
 
-ed_data = {
-    'Hour': ["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
-    'Occupancy': [52,78,80,73,72,68,72,75,75,85,92,85,96,95,98,100,93,86,84,73,76,80,76,57],
-    'Presentations': [5,8,7,7,6,9,5,7,21,23,15,26,20,18,22,20,16,23,13,19,19,16,12,12],
-    'Departures':[11,9,13,5,11,5,4,2,5,12,14,13,19,10,20,22,20,16,24,13,9,10,26,12]
-}
-sas_data = {
-    'Time': ["00:00","00:15","00:30","01:15","01:45","02:00","02:15","02:30","02:45","03:00","03:15","03:30","04:00","04:15","04:30","04:45","05:00","05:15","05:30","05:45","06:00","06:15","06:30","07:00","07:30","07:45","08:00","08:15","08:30","08:45","09:00","09:15","09:45","10:00","10:15","10:30","10:45","11:00","11:15","11:30","12:00","12:15","12:30","13:00","13:15","13:30","13:45","14:00","14:15","14:30","14:45","15","15:30","15:45","16:00","16:15","16:30","16:45","17:00","17:15","17:30","17:45","18:00","18:30","18:45","19:00","19:15","19:30","19:45","20:00","20:15","20:30","21:00","21:15","21:30","21:45","22:00","22:15","22:30","22:45","23:00","23:15","23:30","23:45"],
-    'Arrivals':     [1,0,1,1,0,0,1,1,1,0,1,1,1,0,1,1,3,0,1,1,0,0,1,1,1,0,1,2,4,0,1,2,4,1,0,0,1,0,3,1,2,1,3,1,2,1,0,0,1,0,1,2,0,1,3,0,0,1,1,1,4,0,0,2,1,1,0,1,1,3,1,0,2,1,2,2,1,1,3,0,0,1,1,2],
-    'Departures':   [0,1,0,2,1,2,0,0,0,3,0,1,2,1,0,0,1,1,0,1,2,2,0,1,0,2,0,1,0,2,0,2,2,2,1,2,0,2,2,2,2,1,1,3,1,2,1,1,0,1,0,1,1,0,1,1,2,1,1,0,0,1,5,0,0,2,2,0,0,1,1,2,1,1,1,0,0,2,1,4,1,1,1,1,]
-}
 
-ip_data = {
-    'Hour': ["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
-    'Admissions': [6,7,3,6,1,5,10,23,16,8,10,7,10,13,19,18,14,10,8,10,11,6,6,8],
-    'Separations': [4,0,4,2,2,4,0,2,6,9,15,20,32,24,24,9,24,7,20,11,5,3,6,2]
-}
-ed_df = pd.DataFrame(ed_data)
-sas_df = pd.DataFrame(sas_data)
-ip_df = pd.DataFrame(ip_data)
 with st.container():
     chart_col1, chart_col2 =  st.columns([1,1],gap="small", border=False, width="stretch") 
     with chart_col1:
@@ -332,7 +387,7 @@ with st.container():
             x=ed_df["Hour"],
             y=ed_df["Presentations"],
             name="Presentations",
-            marker_color="rgba(0,156,236,0.8)"
+            marker_color="#6495DF"
         ))
 
         # Bar 2: Departures
@@ -340,7 +395,7 @@ with st.container():
             x=ed_df["Hour"],
             y=ed_df["Departures"],
             name="Departures",
-            marker_color="rgba(123,86,219,0.8)"
+            marker_color="#9D81F0"
         ))
 
         # Line: Occupancy
@@ -401,7 +456,7 @@ with st.container():
             x=ip_df["Hour"],
             y=ip_df["Admissions"],
             name="Admissions",
-            marker_color="rgba(0,156,236,0.8)"
+            marker_color="#6495DF"
         ))
 
         # Bar 2: Separations
@@ -409,7 +464,7 @@ with st.container():
             x=ip_df["Hour"],
             y=ip_df["Separations"],
             name="Separations",
-            marker_color="rgba(123,86,219,0.8)"
+            marker_color="#9D81F0"
         ))
 
 
