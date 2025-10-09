@@ -73,7 +73,7 @@ def tile(title,
         box-shadow: 0px 2px 5px rgba(0,0,0,0.2);padding:5px
     ">
         <div style="font-size: 14px; color: {title_color};text-align: left;margin-top:0rem">{title}</div>
-        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:147px;width:147px;margin-left:15px">{value}</div>
+        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:147px;width:147px;margin-left:10px">{value}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -133,7 +133,7 @@ with st.container():
         </div>
         """, unsafe_allow_html=True)
         #chart_col1.subheader("Emergency Department")
-        st.markdown('<div style="font-family:Segoe UI Semibold"><br/><br/><h3>Emergency Department</h3></div>', unsafe_allow_html=True)
+        st.markdown('<div style="font-family:Segoe UI Semibold"><br/><h3>Emergency Department</h3></div>', unsafe_allow_html=True)
         st.markdown(f"""
         <div style="
             display: grid;
@@ -279,7 +279,7 @@ with st.container():
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
             width=400,    # pixels
-            height=300,   # pixels
+            height=280,   # pixels
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -330,7 +330,7 @@ with st.container():
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
             width=400,    # pixels
-            height=300,   # pixels
+            height=280,   # pixels
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -385,7 +385,7 @@ with st.container():
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
             width=400,    # pixels
-            height=300,   # pixels
+            height=280,   # pixels
         )
 
         st.plotly_chart(fig, use_container_width=True)
