@@ -250,7 +250,7 @@ function(params) {
             xaxis=dict(
                 title="Hour",
                 tickmode='linear',
-                dtick=2,
+                dtick=20,
                 showgrid=False
             ),
             yaxis=dict(
@@ -262,15 +262,15 @@ function(params) {
             legend=dict(
                 orientation="h",
                 yanchor="bottom",
-                y=1.05,
+                y=1.2,
                 xanchor="center",
-                x=0.5
-            ),
+                x=0.9
+            ),margin=dict(l=0, r=0, t=0, b=0),
             plot_bgcolor="#272D3A",   # Chart background
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
             width=400,    # pixels
-            height=350,   # pixels
+            height=310,   # pixels
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -309,10 +309,10 @@ with st.container():
             {tile_content("Hours on Ramp","14hrs", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="10px")}
             {tile_content("Longest on Ramp","3hrs 30", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="10px")}
             {tile_content("Occupancy","98", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
-            {tile_content("WTBS(Waiting to be seen)","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
+            {tile_content("WTBS (Waiting to be seen)","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
             {tile_content("Resus Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
             {tile_content("Avg Time Waiting room","1hr 27", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="0px")}
-            {tile_content("WFB Total","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="7x")}
+            {tile_content("WFB Total","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="4x")}
             {tile_content("WFB Side Room Demand","4", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="0px")}
             {tile_content("#Patient over 24 hours","7", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="0px")}
             {tile_content("Allocated to Bed","9", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="8px")}
