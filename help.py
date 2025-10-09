@@ -309,7 +309,7 @@ with st.container():
             {tile_content("Hours on Ramp","14hrs", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="10px")}
             {tile_content("Longest on Ramp","3hrs 30", bg="#F0AD4E", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="10px")}
             {tile_content("Occupancy","98", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
-            {tile_content("Workforce","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
+            {tile_content("WTBS(Waiting to be seen)","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
             {tile_content("Resus Capacity","1", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="5px")}
             {tile_content("Avg Time Waiting room","1hr 27", bg="#5CBB5C", value_color="#FFFAFA", value_size="22px",title_size="9px",margin_bottom="0px")}
             {tile_content("WFB Total","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="7x")}
