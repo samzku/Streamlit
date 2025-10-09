@@ -73,7 +73,7 @@ def tile(title,
         box-shadow: 0px 2px 5px rgba(0,0,0,0.2);padding:5px
     ">
         <div style="font-size: 14px; color: {title_color};text-align: left;margin-top:0rem">{title}</div>
-        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:147px;width:147px;margin-left:10px">{value}</div>
+        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:140px;width:140px;margin-left:10px">{value}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -124,7 +124,7 @@ with st.container():
         <div style="
             display: grid;
             grid-template-columns: repeat(4, 100px);  /* 2 columns of 65px */
-            gap: 5px;     margin-top: 80px;                          
+            gap: 5px;     margin-top: 75px;                          
         ">
             {tile_content("Critical","5", bg="#3E475C", value_color="#D9534F", value_size="50px",title_size="10px",margin_bottom="0px")}
             {tile_content("High","1", bg="#3E475C", value_color="#E5804F", value_size="50px",title_size="10px",margin_bottom="0px")}
