@@ -39,7 +39,7 @@ div[data-testid="stDataFrameContainer"] th {
     padding-bottom: 0rem;
 }    
 .element-container {
-    margin: 10 !important;
+    margin: 0 !important;
     padding: 0 !important;
 }  
 
@@ -271,7 +271,7 @@ with st.container():
         </div>
         """, unsafe_allow_html=True)
         with st.container():
-            st.markdown(f"<br/><br/>", unsafe_allow_html=True)
+            st.markdown(f"<br/>", unsafe_allow_html=True)
             sl_col1, sl_col2= st.columns([1,1]) 
             with sl_col1:
                 st.markdown('<div style="font-family:Segoe UI Semibold"><h3>Inpatient Capacity</h3></div>', unsafe_allow_html=True)
@@ -290,6 +290,24 @@ with st.container():
             {tile_content("Emergency Surgery","8", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
             </div>
                     """, unsafe_allow_html=True)
+                st.markdown('<div style="font-family:Segoe UI Semibold"><h3>Staffing Levels</h3></div>', unsafe_allow_html=True)
+                st.markdown(f"""
+                    <div style="
+                        display: grid;
+                        grid-template-columns: repeat(3, 85px);  /* 2 columns of 70px */
+                        grid-template-rows: repeat(3, 85px);     /* 2 rows of 70px */
+                        gap: 8px;                               /* space between tiles */
+                    ">
+            {tile_content("ED Nursing","0", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("ED Medical","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("ED Allied Health","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("IP Nursing","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("IP Medical","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("IP Allied Health","8", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            </div>
+                    """, unsafe_allow_html=True)
+            
+            
             with sl_col2:  
                 st.markdown('<div style="font-family:Segoe UI Semibold"><h3>Inpatient Flow</h3></div>', unsafe_allow_html=True)
                 st.markdown(f"""
@@ -305,107 +323,67 @@ with st.container():
             {tile_content("Transfer out Ready","39", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
             {tile_content("SIFT","25", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}                </div>
                 """, unsafe_allow_html=True)
+    
     with chart_col2:
         fig = go.Figure()
 
-        # Area chart - occupancy
-        fig.add_trace(go.Scatter(
-            x=ed_df['Hour'], 
-            y=ed_df['Occupancy'], 
-            fill='tozeroy',
-            mode='none',
-            name='Occupancy',
-            fillcolor='rgba(123, 86, 219, 0.6)'
-        ))
-        # Line 1 - present
-        fig.add_trace(go.Scatter(
-            x=ed_df['Hour'], 
-            y=ed_df['Presentations'], 
-            mode='lines',
-            name='Presentations',
-            line=dict(color='#50C89F', width=3)
+        # Bar 1: Presentations
+        fig.add_trace(go.Bar(
+            x=ed_df["Hour"],
+            y=ed_df["Presentations"],
+            name="Presentations",
+            marker_color="rgba(0,156,236,0.8)"
         ))
 
-        # Line 2 - depart
-        fig.add_trace(go.Scatter(
-            x=ed_df['Hour'], 
-            y=ed_df['Departures'], 
-            mode='lines',
-            name='Departures',
-            line=dict(color='#F0AD4E', width=3)
-        ))
-    #B163FF
- 
-
-        fig.update_layout(
-            title=dict(
-            text="Emergency department Activity<br><sub>Last 24 Hours</sub>",
-            #x=0.5  # center align
-        ),
-         xaxis=dict(
-        dtick=5  # show a label every 5 units
-    ),
-            legend=dict(
-            orientation="h",
-            yanchor="top",
-            y=1.3,
-            xanchor="center",
-            x=0.8
-        ),
-            xaxis_title="Hours",
-            #yaxis_title="Values",
-            template="plotly_white",
-            plot_bgcolor="#272D3A",   # Chart background
-            paper_bgcolor="#272D3A",  # Outer background
-            font_color="white"  ,      # Text color,
-            width=400,    # pixels
-            height=300,   # pixels
-        )
-        st.plotly_chart(fig, use_container_width=True)
-        #st.markdown(f"<br/><br/>", unsafe_allow_html=True)
-        fig = go.Figure()
-
-        # Admissions Area
-        fig.add_trace(go.Scatter(
-            x=ip_df["Hour"],
-            y=ip_df["Admissions"],
-            mode='lines',
-            stackgroup='one',
-            name='Admissions',
-            fillcolor='rgba(0, 156, 236, 0.4)',
-            line=dict(color='rgba(0,0,0,0)') 
+        # Bar 2: Departures
+        fig.add_trace(go.Bar(
+            x=ed_df["Hour"],
+            y=ed_df["Departures"],
+            name="Departures",
+            marker_color="rgba(123,86,219,0.8)"
         ))
 
-
-        # Separations Area
+        # Line: Occupancy
         fig.add_trace(go.Scatter(
-            x=ip_df["Hour"],
-            y=ip_df["Separations"],            
-            stackgroup='one',
-            name='Separations',
-            fillcolor='rgba(123, 86, 219, 0.6)',  # <-- Different transparency
-            line=dict(color='rgba(0,0,0,0)') 
+            x=ed_df["Hour"],
+            y=ed_df["Occupancy"],
+            name="Occupancy (%)",
+            mode="lines+markers",
+            line=dict(color="rgba(255, 193, 7, 1)", width=2),
+            marker=dict(size=5),
+            yaxis="y2"
         ))
 
 
         fig.update_layout(
             title=dict(
-            text="Inpatient Activity<br><sub>Last 24 Hours</sub>",
-            #x=0.5  # center align
-        ),
-         xaxis=dict(
-        dtick=5  # show a label every 5 units
-    ),
+                text="Emergency department Activity<br><sub>Last 24 Hours</sub>",
+                font=dict(size=18)
+            ),
+            xaxis=dict(
+                title="Hour",
+                tickmode='linear',
+                dtick=2,
+                showgrid=False
+            ),
+            yaxis=dict(
+ #               title="Admissions / Separations",
+                showgrid=False
+            ),
+            yaxis2=dict(
+                title="Occupancy (%)",
+                overlaying="y",
+                side="right",
+                showgrid=False
+            ),
+            barmode="group",  # group bars side by side
             legend=dict(
-            orientation="h",
-            yanchor="top",
-            y=1.4,
-            xanchor="center",
-            x=0.9
-        ),
-            xaxis_title="Hours",
-            #yaxis_title="Values",
-            template="plotly_white",
+                orientation="h",
+                yanchor="bottom",
+                y=1.05,
+                xanchor="center",
+                x=0.5
+            ),
             plot_bgcolor="#272D3A",   # Chart background
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
@@ -414,3 +392,171 @@ with st.container():
         )
 
         st.plotly_chart(fig, use_container_width=True)
+    
+
+
+
+        fig = go.Figure()
+
+        # Bar 1: Admissions
+        fig.add_trace(go.Bar(
+            x=ip_df["Hour"],
+            y=ip_df["Admissions"],
+            name="Admissions",
+            marker_color="rgba(0,156,236,0.8)"
+        ))
+
+        # Bar 2: Separations
+        fig.add_trace(go.Bar(
+            x=ip_df["Hour"],
+            y=ip_df["Separations"],
+            name="Separations",
+            marker_color="rgba(123,86,219,0.8)"
+        ))
+
+
+        fig.update_layout(
+            title=dict(
+                text="Inpatient Activity<br><sub>Last 24 Hours</sub>",
+                font=dict(size=18)
+            ),
+            xaxis=dict(
+                title="Hour",
+                tickmode='linear',
+                dtick=2,
+                showgrid=False
+            ),
+            yaxis=dict(
+                
+#                title="Admissions / Separations",
+                showgrid=False
+            ),           
+            barmode="group",  # group bars side by side
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.05,
+                xanchor="center",
+                x=0.5
+            ),
+            plot_bgcolor="#272D3A",   # Chart background
+            paper_bgcolor="#272D3A",  # Outer background
+            font_color="white"  ,      # Text color,
+            width=400,    # pixels
+            height=350,   # pixels
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+    
+
+    #     fig = go.Figure()
+
+    #     # Area chart - occupancy
+    #     fig.add_trace(go.Scatter(
+    #         x=ed_df['Hour'], 
+    #         y=ed_df['Occupancy'], 
+    #         fill='tozeroy',
+    #         mode='none',
+    #         name='Occupancy',
+    #         fillcolor='rgba(123, 86, 219, 0.6)'
+    #     ))
+    #     # Line 1 - present
+    #     fig.add_trace(go.Scatter(
+    #         x=ed_df['Hour'], 
+    #         y=ed_df['Presentations'], 
+    #         mode='lines',
+    #         name='Presentations',
+    #         line=dict(color='#50C89F', width=3)
+    #     ))
+
+    #     # Line 2 - depart
+    #     fig.add_trace(go.Scatter(
+    #         x=ed_df['Hour'], 
+    #         y=ed_df['Departures'], 
+    #         mode='lines',
+    #         name='Departures',
+    #         line=dict(color='#F0AD4E', width=3)
+    #     ))
+    # #B163FF
+ 
+
+    #     fig.update_layout(
+    #         title=dict(
+    #         text="Emergency department Activity<br><sub>Last 24 Hours</sub>",
+    #         #x=0.5  # center align
+    #     ),
+    #      xaxis=dict(
+    #     dtick=5  # show a label every 5 units
+    # ),
+    #         legend=dict(
+    #         orientation="h",
+    #         yanchor="top",
+    #         y=1.3,
+    #         xanchor="center",
+    #         x=0.8
+    #     ),
+    #         xaxis_title="Hours",
+    #         #yaxis_title="Values",
+    #         template="plotly_white",
+    #         plot_bgcolor="#272D3A",   # Chart background
+    #         paper_bgcolor="#272D3A",  # Outer background
+    #         font_color="white"  ,      # Text color,
+    #         width=400,    # pixels
+    #         height=300,   # pixels
+    #     )
+    #     st.plotly_chart(fig, use_container_width=True)
+        #st.markdown(f"<br/><br/>", unsafe_allow_html=True)
+                
+
+ 
+    #     fig = go.Figure()
+
+    #     # Admissions Area
+    #     fig.add_trace(go.Scatter(
+    #         x=ip_df["Hour"],
+    #         y=ip_df["Admissions"],
+    #         mode='lines',
+    #         stackgroup='one',
+    #         name='Admissions',
+    #         fillcolor='rgba(0, 156, 236, 0.4)',
+    #         line=dict(color='rgba(0,0,0,0)') 
+    #     ))
+
+
+    #     # Separations Area
+    #     fig.add_trace(go.Scatter(
+    #         x=ip_df["Hour"],
+    #         y=ip_df["Separations"],            
+    #         stackgroup='one',
+    #         name='Separations',
+    #         fillcolor='rgba(123, 86, 219, 0.6)',  # <-- Different transparency
+    #         line=dict(color='rgba(0,0,0,0)') 
+    #     ))
+
+
+    #     fig.update_layout(
+    #         title=dict(
+    #         text="Inpatient Activity<br><sub>Last 24 Hours</sub>",
+    #         #x=0.5  # center align
+    #     ),
+    #      xaxis=dict(
+    #     dtick=5  # show a label every 5 units
+    # ),
+    #         legend=dict(
+    #         orientation="h",
+    #         yanchor="top",
+    #         y=1.4,
+    #         xanchor="center",
+    #         x=0.9
+    #     ),
+    #         xaxis_title="Hours",
+    #         #yaxis_title="Values",
+    #         template="plotly_white",
+    #         plot_bgcolor="#272D3A",   # Chart background
+    #         paper_bgcolor="#272D3A",  # Outer background
+    #         font_color="white"  ,      # Text color,
+    #         width=400,    # pixels
+    #         height=350,   # pixels
+    #     )
+
+    #     st.plotly_chart(fig, use_container_width=True)
