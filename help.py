@@ -298,12 +298,12 @@ with st.container():
                         grid-template-rows: repeat(3, 85px);     /* 2 rows of 70px */
                         gap: 8px;                               /* space between tiles */
                     ">
-            {tile_content("ED Nursing","0", bg="#F0AD4E", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
-            {tile_content("ED Medical","10", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
-            {tile_content("ED Allied Health","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
-            {tile_content("IP Nursing","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
-            {tile_content("IP Medical","0", bg="#D9534F", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
-            {tile_content("IP Allied Health","8", bg="#5CBB5C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("ED Nursing","0", bg="#3E475C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("ED Medical","0", bg="#3E475C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("ED Allied Health","0", bg="#3E475C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("IP Nursing","0", bg="#3E475C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("IP Medical","0", bg="#3E475C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
+            {tile_content("IP Allied Health","0", bg="#3E475C", value_color="#FFFAFA", value_size="30px",title_size="9px",margin_bottom="10px")}
             </div>
                     """, unsafe_allow_html=True)
             
@@ -393,8 +393,6 @@ with st.container():
 
         st.plotly_chart(fig, use_container_width=True)
     
-
-
 
         fig = go.Figure()
 
