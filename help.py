@@ -73,7 +73,7 @@ def tile(title,
         box-shadow: 0px 2px 5px rgba(0,0,0,0.2);padding:5px
     ">
         <div style="font-size: 14px; color: {title_color};text-align: left;margin-top:0rem">{title}</div>
-        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:147px;width:147px">{value}</div>
+        <div style="font-size: {value_size}; text-align: center;color: {value_color};height:147px;width:147px;margin-left:15px">{value}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -112,208 +112,28 @@ ed_df = pd.DataFrame(ed_data)
 sas_df = pd.DataFrame(sas_data)
 ip_df = pd.DataFrame(ip_data)
 
-with st.container():
-    col1, col2, col3 = st.columns([1,8,1],gap="small", vertical_alignment="top", border=False, width="stretch") 
-
-    # --- BIG KPI ON LEFT ---
-    with col1:    
-        tile("Flow Health", "85", bg="#3E475C", value_color="#4CAF50", value_size="80px",title_color="#FFFFFF")
-        #st.markdown('<div style="box-shadow: 0px 0px 10px #00000050;display:flex; background-color: #333333;align-items:center; justify-content:center; border-radius:8px;">Overall Completion %<h2 style="color:green">85</h></div>', unsafe_allow_html=True)
-
-    # --- TABLE IN THE MIDDLE ---
-    with col2:
-    #     st.markdown("""
-    # <div style="
-    #     background-color:#3E475C; 
-    #     color:white; 
-    #     padding:2px; 
-    #     text-align:left;
-    #     font-size:14px;"font-family": "Segoe UI Semibold"
-    # ">
-    #     Ward Occupancy & Capacity
-    # </div>
-    # """, unsafe_allow_html=True)
-        #st.markdown('<div class="summary-table"><h2>Ward Occupancy</h2></div>', unsafe_allow_html=True)
-        # Example table
-        df_table = pd.DataFrame({
-            "Division": ["Medicine, Cardiac and Critical Care","3GOF - Gen Med Short Stay","4A - General Medicine","4D - General Medicine"],
-            "Physical": [304, 18, 26, 28],
-            "Flex": [13, 0, 2, 2],
-            "16:00": ["91%", "85%", "101%", "99%"],
-            "15:00": ["91%", "101%", "82%", "89%"],
-            "14:00": ["91%", "101%", "82%", "89%"],
-            "13:00": ["91%", "101%", "82%", "89%"],
-            "12:00": ["91%", "101%", "82%", "89%"],
-            "11:00": ["91%", "101%", "82%", "89%"],
-            "10:00": ["91%", "101%", "82%", "89%"],
-            "09:00": ["91%", "101%", "82%", "89%"],
-            "08:00": ["91%", "101%", "82%", "89%"]
-            
-        })
-        # Conditional indentation if value contains '-'
-        indent_style = JsCode("""
-function(params) {
-    if(params.value && params.value.includes('-')) {
-        return {'padding-left': '20px'}; 
-    }else {
-        return {'font-weight': 'bold',
-            'font-family': 'Segoe UI Semibold'};   // bold
-    }
-    return {};
-}
-""")
-        gb = GridOptionsBuilder.from_dataframe(df_table)
-        # Apply to Division column
-        gb.configure_column("Division", cellStyle=indent_style)
-
-        # Estimate height (approx 28px per row + header)
-        row_height = 28
-        header_height = 35
-        padding = 20
-        calculated_height = len(df_table) * row_height + header_height + padding
-        
-        
-        #gb.configure_column("Division", rowGroup=True, hide=True)
-        gb.configure_default_column(resizable=True, sortable=False, filter=False,  width=100)
-        gb.configure_column("Physical", filter=False)
-        gb.configure_column("Flex", filter=False)
-        #for col in df_table.columns:
-        #    gb.configure_column(col, width=150)
-        # Set fixed width for columns
-        gb.configure_column("Division", width=350)        # pixels
-        #gb.configure_column("Physical", width=120)
-        #gb.configure_column("Flex", width=120)
-        #gb.configure_columns(["Division"], cellStyle={'color': 'white', 'backgroundColor': '#333'})
-# --- Custom CSS ---
-        custom_css = {
-            ".ag-root-wrapper": {
-                "background-color": "#3E475C !important",  # dark gray background
-                "color": "white !important",               # white text
-                "padding-right" : "20px","padding-left" : "20px",
-                "border": "none !important"
-            },
-            ".ag-header": {
-                "background-color": "#3E475C !important",
-                "color": "white !important",
-                "font-family": "Segoe UI Semibold",
-                "font-size": "8pt"
-            },
-            ".ag-row": {
-                "background-color": "#3E475C !important",
-                "color": "white !important",
-                "font-family": "Segoe UI Light",
-                "font-size": "8pt"
-            }
-        }
- #       gb.configure_grid_options(
- #       groupDisplayType="multipleColumns",groupDefaultExpanded=1,
- #       suppressAggFuncInHeader=True,
- #       animateRows=True,
- #       domLayout="autoHeight",
- #   )
-        #gb.configure_grid_options(domLayout='autoHeight')  #for auto-table height
-        #gb.configure_default_column(resizable=True, editable=False)
-        
-        # Style via cellClassRules (optional) or gridTheme
-        grid_options = gb.build()
-        #AgGrid(df_table,  gridOptions=grid_options, custom_css=custom_css, enable_enterprise_modules=True,
-        #fit_columns_on_grid_load=True,
-        #height=400,
-        #theme="streamlit",  # or "balham", "material", "alpine"
-    #)
-        #AgGrid(df_table, gridOptions=grid_options,fit_columns_on_grid_load=True,custom_css=custom_css, theme="streamlit",height=155,allow_unsafe_jscode=True) ## can also use "balham", "material", "alpine"
-        #st.dataframe(df_table, use_container_width=True)
-        fig = go.Figure()
-
-        # Bar 1: Presentations
-        fig.add_trace(go.Bar(
-            x=ed_df["Hour"],
-            y=ed_df["Presentations"],
-            name="Presentations",
-            marker_color="#6495DF"
-        ))
-
-        # Bar 2: Departures
-        fig.add_trace(go.Bar(
-            x=ed_df["Hour"],
-            y=ed_df["Departures"],
-            name="Departures",
-            marker_color="#9D81F0"
-        ))
-
-        # Line: Occupancy
-        fig.add_trace(go.Scatter(
-            x=ed_df["Hour"],
-            y=ed_df["Occupancy"],
-            name="Occupancy (%)",
-            mode="lines+markers",
-            line=dict(color="rgba(255, 193, 7, 1)", width=2),
-            marker=dict(size=5),
-            yaxis="y2"
-        ))
-
-
-        fig.update_layout(
-            title=dict(
-                text="Emergency department Activity<br><sub>Last 24 Hours</sub>",
-                font=dict(size=18)
-            ),
-            xaxis=dict(
-                title="Hour",
-                tickmode='linear',
-                dtick=2,
-                showgrid=False
-            ),
-            yaxis=dict(
- #               title="Admissions / Separations",
-                showgrid=False
-            ),
-            yaxis2=dict(
-                title="Occupancy (%)",
-                overlaying="y",
-                side="right",
-                showgrid=False
-            ),
-            barmode="group",  # group bars side by side
-            legend=dict(
-                orientation="h",
-                yanchor="bottom",
-                y=1.1,
-                xanchor="center",
-                x=0.5
-            ),
-            plot_bgcolor="#272D3A",   # Chart background
-            paper_bgcolor="#272D3A",  # Outer background
-            font_color="white"  ,      # Text color,
-            width=900,    # pixels
-            height=250,   # pixels
-        )
-
-        st.plotly_chart(fig, use_container_width=True)
-
-
-    with col3:
-        st.markdown(f"""
-        <div style="
-            display: grid;
-            grid-template-columns: repeat(2, 90px);  /* 2 columns of 65px */
-            grid-template-rows: repeat(2, 90px);     /* 2 rows of 65px */
-            gap: 5px;                               /* space between tiles */
-        ">
-            {tile_content("Critical","5", bg="#3E475C", value_color="#D9534F", value_size="50px",title_size="10px",margin_bottom="0px")}
-            {tile_content("Medium","7", bg="#3E475C", value_color="#F0AD4E", value_size="50px",title_size="10px",margin_bottom="0px")}
-            {tile_content("High","1", bg="#3E475C", value_color="#E5804F", value_size="50px",title_size="10px",margin_bottom="0px")}
-            {tile_content("Normal","16", bg="#3E475C", value_color="#5CBB5C", value_size="50px",title_size="10px",margin_bottom="0px")}
-        </div>
-        """, unsafe_allow_html=True)
-# --- CHARTS BELOW ---
-
 
 with st.container():
     chart_col1, chart_col2 =  st.columns([1,1],gap="small", border=False, width="stretch") 
     with chart_col1:
+        col1, col2 = st.columns([1,4],gap="small", vertical_alignment="top", border=False, width="stretch")
+        with col1:
+            tile("Flow Health", "85", bg="#3E475C", value_color="#4CAF50", value_size="80px",title_color="#FFFFFF") 
+        with col2:
+            st.markdown(f"""
+        <div style="
+            display: grid;
+            grid-template-columns: repeat(4, 150px);  /* 2 columns of 65px */
+            gap: 5px;     margin-top: 80px;                          
+        ">
+            {tile_content("Critical","5", bg="#3E475C", value_color="#D9534F", value_size="50px",title_size="10px",margin_bottom="0px")}
+            {tile_content("High","1", bg="#3E475C", value_color="#E5804F", value_size="50px",title_size="10px",margin_bottom="0px")}
+            {tile_content("Medium","7", bg="#3E475C", value_color="#F0AD4E", value_size="50px",title_size="10px",margin_bottom="0px")}            
+            {tile_content("Normal","16", bg="#3E475C", value_color="#5CBB5C", value_size="50px",title_size="10px",margin_bottom="0px")}
+        </div>
+        """, unsafe_allow_html=True)
         #chart_col1.subheader("Emergency Department")
-        st.markdown('<div style="font-family:Segoe UI Semibold"><h3>Emergency Department</h3></div>', unsafe_allow_html=True)
+        st.markdown('<div style="font-family:Segoe UI Semibold"><br/><br/><h3>Emergency Department</h3></div>', unsafe_allow_html=True)
         st.markdown(f"""
         <div style="
             display: grid;
@@ -395,6 +215,74 @@ with st.container():
                 """, unsafe_allow_html=True)
     
     with chart_col2:
+
+        fig = go.Figure()
+
+        # Bar 1: Presentations
+        fig.add_trace(go.Bar(
+            x=ed_df["Hour"],
+            y=ed_df["Presentations"],
+            name="Presentations",
+            marker_color="#6495ED"
+        ))
+
+        # Bar 2: Departures
+        fig.add_trace(go.Bar(
+            x=ed_df["Hour"],
+            y=ed_df["Departures"],
+            name="Departures",
+            marker_color="#6A5ACD"
+        ))
+
+        # Line: Occupancy
+        fig.add_trace(go.Scatter(
+            x=ed_df["Hour"],
+            y=ed_df["Occupancy"],
+            name="Occupancy (%)",
+            mode="lines+markers",
+            line=dict(color="rgba(255, 193, 7, 1)", width=2),
+            marker=dict(size=5),
+            yaxis="y2"
+        ))
+
+
+        fig.update_layout(
+            title=dict(
+                text="Emergency department Activity<br><sub>Last 24 Hours</sub>",
+                font=dict(size=18)
+            ),
+            xaxis=dict(
+                title="Hour",
+                tickmode='linear',
+                dtick=2,
+                showgrid=False
+            ),
+            yaxis=dict(
+ #               title="Admissions / Separations",
+                showgrid=False
+            ),
+            yaxis2=dict(
+                title="Occupancy (%)",
+                overlaying="y",
+                side="right",
+                showgrid=False
+            ),
+            barmode="group",  # group bars side by side
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.1,
+                xanchor="center",
+                x=0.8
+            ),
+            plot_bgcolor="#272D3A",   # Chart background
+            paper_bgcolor="#272D3A",  # Outer background
+            font_color="white"  ,      # Text color,
+            width=400,    # pixels
+            height=300,   # pixels
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
         fig = go.Figure()
 
         # Bar 1: Arrivals
@@ -402,7 +290,7 @@ with st.container():
             x=sas_df["Time"],
             y=sas_df["Arrivals"],
             name="Arrivals",
-            marker_color="#6495DF"
+            marker_color="#6495ED"
         ))
 
         # Bar 2: Departures
@@ -410,13 +298,13 @@ with st.container():
             x=sas_df["Time"],
             y=sas_df["Departures"],
             name="Departures",
-            marker_color="#9D81F0"
+            marker_color="#6A5ACD"
         ))
 
 
         fig.update_layout(
             title=dict(
-                text="SAS Activity<br><sub>Last 24 Hours</sub>",
+                text="SAAS Activity<br><sub>Last 24 Hours</sub>",
                 font=dict(size=18)
             ),
             xaxis=dict(
@@ -442,7 +330,7 @@ with st.container():
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
             width=400,    # pixels
-            height=310,   # pixels
+            height=300,   # pixels
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -457,7 +345,7 @@ with st.container():
             x=ip_df["Hour"],
             y=ip_df["Admissions"],
             name="Admissions",
-            marker_color="#6495DF"
+            marker_color="#6495ED"
         ))
 
         # Bar 2: Separations
@@ -465,7 +353,7 @@ with st.container():
             x=ip_df["Hour"],
             y=ip_df["Separations"],
             name="Separations",
-            marker_color="#9D81F0"
+            marker_color="#6A5ACD"
         ))
 
 
@@ -497,7 +385,7 @@ with st.container():
             paper_bgcolor="#272D3A",  # Outer background
             font_color="white"  ,      # Text color,
             width=400,    # pixels
-            height=350,   # pixels
+            height=300,   # pixels
         )
 
         st.plotly_chart(fig, use_container_width=True)
